@@ -73,7 +73,14 @@ const isVerified = await user.matchPassword(password);
   const token = jwt.sign({userId:user._id},process.env.JWT_SECRET_KEY ,{
     expiresIn:"7d"
   }) 
-  
+  res.cookie("jwt",token,{
+    maxAge:7*24*60*60*1000,
+    httpOnly:true,
+    sameSite:"strict",
+    secure:process.env.NODE_ENV==="producion"
+  });
+
+  res.status(200).json({success:true , message:"login succesful" , user})
     } catch (error) {
         console.log(error)
         res.status(500).json({success:false,message:"internal server issue"})
@@ -81,5 +88,6 @@ const isVerified = await user.matchPassword(password);
 }
 
 export async function logout(req,res){
-    res.send("signup")
+    res.clearCookie("jwt")
+    res.status(200).json({success:true , message:"logout successful"})
 }
