@@ -1,0 +1,32 @@
+import express from 'express';
+// to read the .env values 
+import dotenv from 'dotenv';
+dotenv.config();
+import authRoutes from "./routes/auth.route.js";
+import { connectDb } from './lib/db.js';
+
+// /or do import 'dotenv/config' at the top of the file
+
+const app = express();
+const port = process.env.PORT || 5000;
+app.use(express.json());
+
+app.use('/api/auth', authRoutes)
+
+app.listen(port,()=>{
+    console.log(`Server is running on port ${port}`);
+    connectDb();
+})
+
+// noob way to do routes 
+// app.get('/api/auth/signup',(req,res)=>{
+//     res.send("signup Route")
+// })
+
+// app.get('/api/auth/login',(req,res)=>{
+//     res.send("login Route")
+// })
+
+// app.get('/api/auth/logout',(req,res)=>{
+//     res.send("logout Route")
+// })
