@@ -1,3 +1,4 @@
+import bcrypt from "bcryptjs";
 import User from "../models/User.js";
 import jwt from 'jsonwebtoken'
 export async function signup(req,res){
@@ -51,7 +52,32 @@ export async function signup(req,res){
 
 
 export async function login(req,res){
-    res.send("signup")
+    try {
+        const {email,password} = req.body;
+        if (!email||!password) {
+            return res.status(400).json({message:"all credentials required"})
+        }
+        
+        const user = await User.findOne({email});
+        if (!user) {
+            return res.status(400).json({message:"invalid email and password"})
+        }
+        // go to user model for comparing password with hash 
+        // or 
+//   const isVerified = await bcrypt.compare(password,user.password);
+const isVerified = await user.matchPassword(password);
+  if (!isVerified) {
+    return res.status(400).json({message:"invalid email and password"});
+  }
+
+  const token = jwt.sign({userId:user._id},process.env.JWT_SECRET_KEY ,{
+    expiresIn:"7d"
+  }) 
+  
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({success:false,message:"internal server issue"})
+    }
 }
 
 export async function logout(req,res){
