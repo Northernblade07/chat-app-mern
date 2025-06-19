@@ -20,6 +20,13 @@ export const upsertStreamUser = async(userData)=>{
     }
 }
 
+// build after the chat controller called for it 
 export const generateStreamToken = async(userId)=>{
-    
+    try {
+        //userId should be string 
+        const userIdStr = userId.toString();
+        return streamClient.createToken(userIdStr);
+    } catch (error) {
+        console.log(error,"error generating stream token")
+    }
 }
