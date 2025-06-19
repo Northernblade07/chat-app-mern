@@ -76,3 +76,36 @@ export async function sendFriendRequest(req,res) {
         console.log(error)
     }
 }
+
+export async function acceptFriendRequest(req,res) {
+    try {
+        const {id:requestId} = req.params;
+        const friendRequest = await FriendRequest.findById(requestId);
+        if (!friendRequest) {
+            return res.status(404).json({message:"friend request not found "})
+        }
+
+        if(friendRequest.recipient.toString()!== req.user.id){
+            return res.status(400).json({message:"you are not authorised to accept this request"});
+        }
+
+        friendRequest.status = 'accepted';
+        await friendRequest.save();
+
+        await User.findByIdAndUpdate(friendRequest.sender,{
+            $addToSet:{friends:friendRequest.recipient},
+        })
+
+        await User.findByIdAndUpdate(friendRequest.recipient,{
+            $addToSet:{
+                friends:friendRequest.sender
+            }
+        }
+        )
+
+        res.status(200).json({message:"friend request accepted"})
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({succes:false , message:"internal server issue"})
+    }
+}
