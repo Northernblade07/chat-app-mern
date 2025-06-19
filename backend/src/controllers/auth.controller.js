@@ -1,6 +1,7 @@
-import bcrypt from "bcryptjs";
+// import bcrypt from "bcryptjs";
 import User from "../models/User.js";
 import jwt from 'jsonwebtoken'
+import { upsertStreamUser } from "../lib/stream.js";
 export async function signup(req,res){
     const {fullName, email , password } = req.body;
     try {
@@ -32,6 +33,17 @@ export async function signup(req,res){
     })
 
     // create the user in stream as well 
+    try {
+         await upsertStreamUser({
+        id:newUser._id.toString(),
+        name:newUser.fullName,
+        image:newUser.profilePic || "",
+    })
+    console.log(`streams user created for ${newUser.fullName}`)
+    } catch (error) {
+        console.log(error);
+    }
+   
     const token = jwt.sign({userId:newUser._id},process.env.JWT_SECRET_KEY,{
         expiresIn:"7d"
     })
@@ -77,7 +89,7 @@ const isVerified = await user.matchPassword(password);
     maxAge:7*24*60*60*1000,
     httpOnly:true,
     sameSite:"strict",
-    secure:process.env.NODE_ENV==="producion"
+    secure:process.env.NODE_ENV==="production"
   });
 
   res.status(200).json({success:true , message:"login succesful" , user})
@@ -88,6 +100,6 @@ const isVerified = await user.matchPassword(password);
 }
 
 export async function logout(req,res){
-    res.clearCookie("jwt")
-    res.status(200).json({success:true , message:"logout successful"})
+    res.clearCookie("jwt");
+    res.status(200).json({success:true , message:"logout successful"});
 }
