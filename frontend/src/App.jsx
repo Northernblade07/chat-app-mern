@@ -1,34 +1,38 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from 'react'
+import { Navigate, Route, Routes } from 'react-router'
+import HomePage from './pages/HomePage'
+import SignupPage from './pages/SignupPage'
+import LoginPage from './pages/LoginPage'
+import OnboardingPage from './pages/OnboardingPage'
+import NotificationPage from './pages/NotificationPage'
+import CallPage from './pages/CallPage'
+import ChatPage from './pages/ChatPage'
+import { Toaster} from 'react-hot-toast'
+// import { axiosInstance } from './lib/axios'
+// import {useQuery} from "@tanstack/react-query"
+import PageLoader from './components/PageLoader'
 
-function App() {
-  const [count, setCount] = useState(0)
+import useAuthUser from './hooks/useAuthUser'
+const App = () => {
 
+  const {isLoading , authUser} = useAuthUser()
+  
+  if (isLoading) return <PageLoader/>;
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+
+    <div className='h-screen' data-theme="forest">
+      <Routes>
+        <Route path='/' element={authUser? <HomePage/>:<Navigate to={'/login'}/>}/>
+         <Route path='/signup' element={!authUser?<SignupPage/>:<Navigate to={'/onboarding'}/>}/>
+          <Route path='/login' element={!authUser?<LoginPage/>:<Navigate to={'/'}/>}/>
+           <Route path='/onboarding' element={authUser?<OnboardingPage/>: <Navigate to={'/login'}/>}/>
+            <Route path='/notification' element={authUser?<NotificationPage/> : <Navigate to={'/login'}/>}/>
+              <Route path='/chat' element={authUser?<ChatPage/>: <Navigate to={'/login'}/>}/>
+             <Route path='/call' element={authUser?<CallPage/>: <Navigate to={'/login'}/>}/>
+      </Routes>
+      <Toaster/>
+
+    </div>
   )
 }
 

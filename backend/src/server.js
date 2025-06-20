@@ -2,15 +2,21 @@ import express from 'express';
 // to read the .env values 
 import dotenv from 'dotenv';
 dotenv.config();
+// /or do import 'dotenv /config' at the top of the file
 import authRoutes from "./routes/auth.route.js";
 import { connectDb } from './lib/db.js';
 import cookieParser from 'cookie-parser'
 import userRoutes from './routes/user.route.js'
 import chatRoutes from './routes/chat.route.js'
-// /or do import 'dotenv/config' at the top of the file
+import cors from 'cors'
+
 
 const app = express();
 const port = process.env.PORT || 5000;
+
+app.use(cors({origin:"http://localhost:5173",
+    credentials:true // allow frontend to send the cookies 
+}))
 app.use(express.json());
 app.use(cookieParser());
 
