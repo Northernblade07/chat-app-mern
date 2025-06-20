@@ -112,7 +112,7 @@ export async function onboard(req,res) {
         const {fullName , bio , nativeLanguage , learningLanguage , location } = req.body;
 
         if (!fullName||! bio ||! nativeLanguage ||! learningLanguage ||! location ) {
-            res.status(400).json({message:"all fields are required ",
+          return res.status(400).json({message:"all fields are required ",
                 miisingfields : [
                     !fullName && 'fullName',
                     ! bio && "bio",
@@ -126,7 +126,7 @@ export async function onboard(req,res) {
        const updatedUser =  await User.findByIdAndUpdate(userId,{
             ...req.body,
             isOnboarded:true,
-        },{new : true})
+        },{new:true})
 
         if (!updatedUser) {
             return res.status(404).json({message:"user not found "})
@@ -143,7 +143,7 @@ export async function onboard(req,res) {
         } catch (error) {
          console.log('stream update erro')   
         }
-        res.status(200).json({success:true , user : updatedUser , message:"user updated "})
+        res.status(200).json({success:true , user:updatedUser , message:"user updated "})
     } catch (error) {
         console.log(error);
         res.status(500).json({success:false , message:"internal server issue"})
