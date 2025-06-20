@@ -14,3 +14,8 @@ export const completeOnboarding = async(formData)=>{
 const res = await axiosInstance.post("/auth/onboarding",formData)
 return res.data
 }
+
+export const login = async(loginData)=>{
+    const res = await axiosInstance.post("/auth/login",loginData);
+    return res.data
+}

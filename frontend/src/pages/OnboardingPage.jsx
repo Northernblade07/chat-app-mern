@@ -133,7 +133,7 @@ const OnboardingPage = () => {
 {/* submit */}
 <button type='submit' className='btn btn-primary w-full rounded-full' disabled={isPending}>{isPending?(
   <div>
-    <LoaderIcon className=' animate-spin size-5 mr-2'>onboarding...</LoaderIcon>
+    <LoaderIcon className='animate-spin size-5 mr-2'>onboarding...</LoaderIcon>
   </div>
 ):(
 <>
