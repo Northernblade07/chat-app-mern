@@ -42,9 +42,10 @@ const Sidebar = () => {
 
         <div className='p-4 border-t'>
             <div className='flex items-center gap-3 '>
-                <div className='avatart'>
-                    <div className='w-10 rounded-full'> </div>
+                <div className='avatar'>
+                    <div className='w-10 rounded-full'> 
                     <img src={authUser?.profilePic} alt="avatar"/>
+                    </div>
                 </div>
 
             <div className='flex-1'>

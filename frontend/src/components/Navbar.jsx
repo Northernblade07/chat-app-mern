@@ -36,15 +36,14 @@ const Navbar = () => {
 
                 <div className='flex items-center gap-3 sm:gap-4'>
                      
-
             <Link to={'/notification'} className={`btn btn-ghost btn-circle`}>
             <BellIcon className='opacity-70 size-6 text-base-content'/>
             </Link>   
 
                 </div>
                 <ThemeSelector/>
-                <div className='avatar'>
-                    <div className='w-9 rounded-full'>
+                <div className='avatar flex items-center'>
+                    <div className='w-9 h-9 rounded-full'>
                         <img src={authUser?.profilePic} alt="user" rel='noreferrer' />
                     </div>
                 </div>

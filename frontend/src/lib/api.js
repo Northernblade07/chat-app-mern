@@ -30,3 +30,35 @@ export const logout =async()=>{
     const res = await axiosInstance.post("/auth/logout");
     return res.data;
 }
+
+export const getUsersFriends=async()=>{
+    const res  = await axiosInstance.get("/users/friends")
+    return res.data
+}
+
+export const getRecommendedUsers=async()=>{
+    const res = await axiosInstance.get("/users")
+    return res.data
+}
+
+
+export const getOutgoingRequests=async()=>{
+    const res = await axiosInstance.get("/users/outgoing-friend-request")
+    return res.data
+}
+
+
+export const sendFriendRequest=async(userId)=>{
+    const res = await axiosInstance.post(`/users/friend-request/${userId}`)
+    return res.data
+}
+
+export const getFriendRequest=async()=>{
+    const res  = await axiosInstance.get("/users/friend-requests")
+    return res.data
+}
+
+export const acceptFriendRequest=async(requsetId)=>{
+    const res = await axiosInstance.put(`/user/friend-request/${requsetId}/accept`)
+    return res.data
+}
