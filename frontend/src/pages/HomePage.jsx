@@ -26,7 +26,7 @@ const HomePage = () => {
     queryFn: getOutgoingRequests
   })
 
-  const { mutate: sendRequestMutation, isPending, error } = useMutation({
+  const { mutate: sendRequestMutation, isPending } = useMutation({
     mutationFn: sendFriendRequest,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["outgoingFriendRequest"] })
@@ -35,15 +35,16 @@ const HomePage = () => {
   })
 
   // to update the state 
-useEffect(() => {
-  const outgoingIds = new Set();
-  if (outgoingRequest && outgoingRequest.length > 0) {
-    outgoingRequest.forEach((req) => {
-      outgoingIds.add(req.recipient._id); // or req.recipient if it's already a string
-    });
-    setOutgoingFriendRequest(outgoingIds);
-  }
-}, [outgoingRequest]);
+  useEffect(() => {
+    const outgoingIds = new Set();
+    if (outgoingRequest && outgoingRequest.length > 0) {
+      outgoingRequest.forEach((req) => {
+        console.log(req)
+        outgoingIds.add(req.recipient._id); // or req.recipient if it's already a string
+      });
+      setOutgoingFriendRequest(outgoingIds);
+    }
+  }, [outgoingRequest]);
 
   return (
     <div className='p-4 sm:p-6 lg:p-8 '>
@@ -116,34 +117,38 @@ useEffect(() => {
 
                           </div>
 
-<div className='flex flex-wrap gap-1.5'>
-  <span className='badge badge-secondary'>
-    {getLanguageFlag(user.nativeLanguage)}
-    Native:{capitialize(user.nativeLanguage)}
-  </span>
-  <span className='badge badge-outline'>
-    {getLanguageFlag(user.learningLanguage)}
-    learning :{capitialize(user.learningLanguage)}
-  </span>
+                          <div className='flex flex-wrap gap-1.5'>
+                            <span className='badge badge-secondary'>
+                              {getLanguageFlag(user.nativeLanguage)}
+                              Native:{capitialize(user.nativeLanguage)}
+                            </span>
+                            <span className='badge badge-outline'>
+                              {getLanguageFlag(user.learningLanguage)}
+                              learning :{capitialize(user.learningLanguage)}
+                            </span>
 
-</div>
-                              {user.bio && (
-                                <p className='text-sm opacity-70'>{user.bio}</p>
-                              )}
-    {/* action button */}
-    <button onClick={()=>sendRequestMutation(user._id)} disabled={hasRequestBeenSent||isPending} className={`btn w-full mt-2 ${hasRequestBeenSent?"btn-disabled":"btn-primary"}`}>
-    {hasRequestBeenSent?(
-      <>
-      <CheckCircleIcon className='size-4 mr-2'/>
-      Request sent
-      </>
-    ):(
-      <>
-      <UserPlusIcon className='size-4 mr-2'/>
-      Send Friend Request 
-      </>
-    )}
-    </button>
+                          </div>
+                          {user.bio && (
+                            <p className='text-sm opacity-70'>{user.bio}</p>
+                          )}
+
+                          {/* action button */}
+                          <button 
+                          onClick={()=>sendRequestMutation(user._id)}
+                           disabled={hasRequestBeenSent||isPending} 
+                           className={`btn w-full mt-2 ${hasRequestBeenSent ? "btn-disabled" : "btn-primary"}`}>
+                            {hasRequestBeenSent?(
+                              <>
+                                <CheckCircleIcon className='size-4 mr-2' />
+                                Request sent
+                              </>
+                            ):(
+                              <>
+                                <UserPlusIcon className='size-4 mr-2' />
+                                Send Friend Request
+                              </>
+                            )}
+                          </button>
                         </div>
                       </div>
 

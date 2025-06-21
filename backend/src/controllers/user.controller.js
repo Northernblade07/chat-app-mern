@@ -36,6 +36,7 @@ export async function getMyFriends(req,res) {
 
 export async function sendFriendRequest(req,res) {
     try {
+        console.log(req.user.id);
         const myId = req.user.id;
        const {id : recipientId} = req.params
 
@@ -70,10 +71,11 @@ export async function sendFriendRequest(req,res) {
         recipient:recipientId,
     })
 
-    res.status(200).json({success:true,message:"friend request send successfully" }, friendRequest)
+    res.status(200).json(friendRequest)
 
     } catch (error) {
         console.log(error)
+        return res.status(500).json({message:"internal server issue"})
     }
 }
 
@@ -117,12 +119,12 @@ export async function getFriendRequest(req,res) {
             status:'pending'
         }).populate("sender","fullName profilePic nativeLanguage learningLanguage")
 
-        const acceptRequest = await FriendRequest.find({
+        const acceptedRequest = await FriendRequest.find({
             recipient:req.user.id,
             status:'accepted'
         }).populate("recipient","fullName profilePic ")
 
-        res.status(200).json({success:true, acceptRequest, incomingRequest})
+        res.status(200).json({acceptedRequest, incomingRequest})
     } catch (error) {
         console.log(error);
         res.status(500).json({success:false , message:"internal server issue"})

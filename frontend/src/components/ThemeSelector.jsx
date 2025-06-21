@@ -19,8 +19,8 @@ const ThemeSelector = () => {
 
                         <PaletteIcon className='size-4 text-primary'/>
                         <span className='text-sm font-medium'>{themeOption.label}</span>
-                        {themeOption.colors.map((color)=>(
-                            <span className='size-2 rounded-full' key={color} style={{backgroundColor:color}}></span>
+                        {themeOption.colors.map((color,i)=>(
+                            <span className='size-2 rounded-full' key={i} style={{backgroundColor:color}}></span>
                         ))}
                         </button>
                     ))
