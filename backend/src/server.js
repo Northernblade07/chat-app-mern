@@ -9,10 +9,12 @@ import cookieParser from 'cookie-parser'
 import userRoutes from './routes/user.route.js'
 import chatRoutes from './routes/chat.route.js'
 import cors from 'cors'
-
-
+// for deployement import path and then use it 
+import path from 'path'
 const app = express();
 const port = process.env.PORT || 5000;
+// after importing path , create a const variable 
+const _dirname = path.resolve();
 
 app.use(cors({origin:"http://localhost:5173",
     credentials:true // allow frontend to send the cookies 
@@ -24,6 +26,16 @@ app.use(cookieParser());
 app.use('/api/auth', authRoutes)
 app.use("/api/users",userRoutes)
 app.use("/api/chat",chatRoutes)
+
+// after creating the variable _dirname ,do:
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static(path.join(_dirname,'../frontend/dist')))
+
+    app.get("*",(req,res)=>{
+        res.sendFile(path.join(_dirname,"../frontend","dist","index.html"))
+    })
+    
+}
 
 app.listen(port,()=>{
     console.log(`Server is running on port ${port}`);
