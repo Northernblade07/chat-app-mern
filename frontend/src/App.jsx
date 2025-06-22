@@ -40,7 +40,7 @@ const App = () => {
             <NotificationPage/>
             </Layout>
              : <Navigate to={ !isAuthenticated?'/login':"/onboarding"}/>}/>
-              <Route path='/chat' element={isAuthenticated && isOnboarded?
+              <Route path='/chat/:id' element={isAuthenticated && isOnboarded?
               <Layout showSidebar={false}>
                 <ChatPage/>
               </Layout>
