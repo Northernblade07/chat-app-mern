@@ -18,6 +18,7 @@ import { StreamChat } from 'stream-chat';
 import toast from 'react-hot-toast';
 import ChatLoader from '../components/ChatLoader';
 import CallButton from '../components/CallButton';
+import PageLoader from '../components/PageLoader';
 
 const STREAM_API_KEY =import.meta.env.VITE_STREAM_API_KEY
 
@@ -83,7 +84,7 @@ const handleVideoCall=()=>{
     
   }
 }
-if (loading ||!chatClient||!channel) return <ChatLoader/>
+if (loading ||!chatClient||!channel) return <PageLoader/>
   return (
     <div className='h-[95vh] '>
 
