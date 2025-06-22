@@ -9,7 +9,7 @@ import cookieParser from 'cookie-parser'
 import userRoutes from './routes/user.route.js'
 import chatRoutes from './routes/chat.route.js'
 import cors from 'cors'
-// for deployement import path and then use it 
+// for deployment import path and then use it 
 import path from 'path'
 const app = express();
 const port = process.env.PORT || 5000;

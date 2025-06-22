@@ -27,10 +27,10 @@ const Sidebar = () => {
                 HOME
             </Link> 
 
-            <Link to={'/friends'} className={`btn btn-ghost justify-start w-full gap-3 px-3 normal-case ${currentPath==='/friends'? 'btn-active':''}`}>
+            {/* <Link to={'/friends'} className={`btn btn-ghost justify-start w-full gap-3 px-3 normal-case ${currentPath==='/friends'? 'btn-active':''}`}>
             <User className='opacity-70 size-5 text-base-content'/>
                 Friends
-            </Link> 
+            </Link>  */}
 
             <Link to={'/notification'} className={`btn btn-ghost justify-start w-full gap-3 px-3 normal-case ${currentPath==='/notification'? 'btn-active':''}`}>
             <BellIcon className='opacity-70 size-5 text-base-content'/>
